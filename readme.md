@@ -2,8 +2,8 @@
 
 - [How to get started](#how-to-get-started)
 - [API](#api)
-  - [## Classes](#classes)
-    - [Methods](#methods)
+  - [Classes](#classes)
+  - [Methods](#methods)
 
 This is a homemade Music API that will play notes you pass into it. For an example, look at `fib.py`. The code in that file generates the file `audio/fib.wav`, which plays notes from the harmonic minor scale with scale degrees corresponding to the first digit of the first **1000** fibonacci numbers, with each note lasting **0.3** seconds.
 
@@ -81,13 +81,13 @@ Want to try run this yourself? Here's how:
 # API
 You can see a much more detailed version of this API documentation at https://christofferaakre.github.io/music.
 
-## Classes
+Classes
 -------
 
 `Player(sample_rate=44100)`
 :   Initializes a Player instance, e.g. player = Player()
 
-### Methods
+## Methods
 
 `add_scale(self, name, scale, number_of_octaves=100)`
     :   Adds a given scale to the Player
