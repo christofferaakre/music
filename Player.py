@@ -66,7 +66,7 @@ class Player(object):
         set_notes and set_note_durations.
         """
         print(f"len(self.note_durations) = {len(self.note_durations)}")
-        self.duration = self.notes * self.note_durations
+        self.duration = sum(self.note_durations)
         return self.duration
 
     def set_notes(self, notes: list):
@@ -75,7 +75,7 @@ class Player(object):
         using the given list.
         """
         # Making sure all the notes are integers
-        self.notes = np.array(notes).astype(int)
+        self.notes = notes
         # If the length of self.notes and self.note_durations is not
         # the same, then that probably just means you've called
         # either set_notes or set_note_durations but not the other
@@ -140,6 +140,14 @@ class Player(object):
             len(self.notes) == len(self.note_durations)
         except:
             raise Exception("self.notes does not have the same length as self.note_durations")
+        # This loop with the try and except
+        # allows the user to input single notes
+        # without using a list, e.g. 5 instead of [5]
+        for i in range(0, len(self.notes)):
+            try:
+                len(self.notes[i])
+            except:
+                self.notes[i] = [self.notes[i]]
         # Default the scale to self.active_scale if
         # no scale is given
         if not scale:
@@ -156,6 +164,10 @@ class Player(object):
         # take a while to run if you give it a lot of data
         print("Generating t list and intervals...")
 
+        # Working out the size of the biggest chord used. This
+        # will be useful later in the code
+        chord_size = max([len(chord) for chord in self.notes])
+
         for i in range(0, len(self.notes)):
             # Calculate the percentage progress in the loop
             # and print it out if it is more than 1% more than
@@ -170,7 +182,9 @@ class Player(object):
             # cover its duration using our sample rate
             n = int(self.sample_rate * self.note_durations[i])
             # Just stick as many notes as we need into the intervals list
-            intervals.extend(np.full(n, self.notes[i]))
+            #intervals.extend(np.full(n, self.notes[i]))
+            for j in range(0, n):
+                intervals.append(self.notes[i])
             # Increment t n times since we added intervals to the intervals list
             for j in range(0, n):
                 T.append(t)
@@ -178,19 +192,45 @@ class Player(object):
                 # is the 'smallest possible time'
                 # for our melody
                 t += 1 / self.sample_rate
-       
+
         T = np.array(T)
         
         print("Converting scale intervals to frequencies...")
-        intervals = np.array(intervals).astype(int)
-        frequency = np.array([scale[interval] for interval in intervals])
-        
+        chords = [interval if len(interval) > 0 else [interval] for interval in intervals]
+        # This loop pads chords that are smaller than the biggest by simply
+        # adding a duplicate. This way we can treat all our chords
+        # (even single notes!) exactly the samwe way in our code
+        for i in range(0, len(chords)):
+            chords[i].extend(np.full(chord_size - len(chords[i]), chords[i][0]))
+        frequencies = []
+        for chord in chords:
+                frequency = np.array([scale[interval] for interval in chord])
+                frequencies.append(frequency)
+
+        # Transpoing the frequencies. This will make it much
+        # easier to merge together the notes in chords
+        # Don't worry about the shape of the array being messed uo
+        # now, as we will transpose it back again whenevr
+        # we save the audio to a file (in save_audio)
+        frequencies = np.array(frequencies).T
+        print(frequencies)
         print("Building sine waves...")
-        note = np.sin(self.base * frequency * T * 2 * np.pi)
         
+        # This part of the code takes core
+        # of chords, e.g. multiple notes being
+        # played at once
+        note = np.array([
+            np.sin(self.base * frequencies[0] * T * 2 * np.pi)
+        ])
+        for i in range(1, len(frequencies)):
+            note += np.sin(self.base * frequencies[i] * T * 2 * np.pi)
+        #################################################################
+
         print("Building audio...")
+        # Normalising
         audio = note * (2 ** 15 - 1) / np.max(np.abs(note))
         audio = audio.astype(np.int16)
+        print(np.max(audio))
         
         self.audio = audio
         print("Done!")
@@ -220,7 +260,9 @@ class Player(object):
         if '.wav' not in save_location:
             save_location = f"{save_location}.wav"
 
-        wavfile.write(save_location, self.sample_rate, self.audio)
+        # Transposing audio back again so that scipy can write
+        # the correct data
+        wavfile.write(save_location, self.sample_rate, self.audio.T)
         return save_location
     
     def __repr__(self):
