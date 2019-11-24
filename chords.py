@@ -36,9 +36,9 @@ note_durations = []
 for chord in chords:
     notes.extend(chord["notes"])
     note_durations.extend(chord["note_durations"])
-
 player.set_notes(notes)
 player.set_note_durations(note_durations)
+player.set_base(220)
 player.generate_audio()
 player.save_audio("Am-Dm-Fmaj-Emaj.wav")
 
@@ -50,5 +50,6 @@ for chord in chords:
     player = Player()
     player.set_notes(notes)
     player.set_note_durations(note_durations)
+    player.set_base(220)
     player.generate_audio()
     player.save_audio(f"{chord['name']}.wav")

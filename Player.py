@@ -17,9 +17,8 @@ class Player(object):
         self.notes = np.array([])
         self.note_durations = np.array([])
         self.duration = 0
-        # 440 Hz is the standard A used for tuning
-        # most instruments
-        self.base = 440
+        # 83 Hz is the low E on a gutar in standard tuning
+        self.base = 83
         self.audio  = np.array([])
         self.sample_rate = sample_rate
         # To get scale tones, we use equal temperament,
@@ -109,25 +108,22 @@ class Player(object):
         self.active_scale = self.scales[name]
         return self.active_scale
 
-    def add_scale(self, name: str, scale: list, base: int = None, number_of_octaves: int = 100):
+    def add_scale(self, name: str, scale: list, number_of_octaves: int = 100):
         """
         Adds a given scale to the Player
-        with the given name and base,
+        with the given name,
         e.g. Player().add_scale("melodic minor", [*scaletones]).
         """
-        # Defaulting the base to self.base if no base is given
-        if not base:
-            base = self.base
         
         # Here we extend the given scale up to many ovtaves.
         # The default is 100 octaves, but we can go higher
         # if we want to. 100 octaves is proably plenty
         # for most use cases though
-        extended_scale = self.base * np.array(scale)
+        extended_scale = np.array(scale)
         for i in range(1, number_of_octaves):
             octave = self.semitone ** (12 * i)
             extended_scale = np.hstack([
-                extended_scale, base * octave * np.array(scale)
+                extended_scale, octave * np.array(scale)
             ])
         self.scales[name] = extended_scale
         return extended_scale
@@ -190,7 +186,7 @@ class Player(object):
         frequency = np.array([scale[interval] for interval in intervals])
         
         print("Building sine waves...")
-        note = np.sin(frequency * T * 2 * np.pi)
+        note = np.sin(self.base * frequency * T * 2 * np.pi)
         
         print("Building audio...")
         audio = note * (2 ** 15 - 1) / np.max(np.abs(note))
