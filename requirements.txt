@@ -42,4 +42,4 @@ traitlets==4.3.2
 typed-ast==1.4.0
 typing==3.7.4
 typing-extensions==3.7.4
-urllib3==1.24.1
+urllib3==1.24.2
