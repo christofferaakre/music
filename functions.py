@@ -11,7 +11,7 @@ def get_notes_from_file(filename: str, choose_function = lambda x: int(x[0])) ->
         notes.append(note)
     return notes
 
-def generate_fibonacci_numbers(N: int = 100, filename: str = "fib.txt"):
+def generate_fibonacci_numbers(N: int = 100, filename: str = "data/fib.txt"):
     """
     Generates N fibonacci numbers and saves them to a .txt file
     """
