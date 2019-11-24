@@ -100,6 +100,15 @@ class Player(object):
             self.update_duration()
         return self.note_durations
 
+    def set_active_scale(self, name: str):
+        """
+        Sets the active scale to the
+        provided scale name, provided
+        the scale exists in self.scales
+        """
+        self.scale = self.scales[name]
+        return self.name
+
     def add_scale(self, name: str, scale: list, base: int = None, number_of_octaves: int = 100):
         """
         Adds a given scale to the Player
