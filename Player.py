@@ -106,8 +106,8 @@ class Player(object):
         provided scale name, provided
         the scale exists in self.scales
         """
-        self.scale = self.scales[name]
-        return self.name
+        self.active_scale = self.scales[name]
+        return self.active_scale
 
     def add_scale(self, name: str, scale: list, base: int = None, number_of_octaves: int = 100):
         """
