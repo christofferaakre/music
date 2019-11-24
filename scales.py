@@ -11,7 +11,6 @@ major_scale = [
     c ** 7, 
     c ** 9, 
     c ** 11, 
-    c ** 12
 ]
 
 minor_scale = [
@@ -22,7 +21,6 @@ minor_scale = [
     c ** 7,
     c ** 8,
     c ** 10,
-    c ** 12
 ]
 
 harmonic_minor_scale = [
@@ -31,9 +29,8 @@ harmonic_minor_scale = [
     c ** 3,
     c ** 5,
     c ** 7,
-    c ** 9,
+    c ** 8,
     c ** 11,
-    c ** 12
 ]
 
 scales = {

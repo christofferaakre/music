@@ -127,7 +127,7 @@ class Player(object):
         for i in range(1, number_of_octaves):
             octave = self.semitone ** (12 * i)
             extended_scale = np.hstack([
-                extended_scale, octave * np.array(scale)
+                extended_scale, base * octave * np.array(scale)
             ])
         self.scales[name] = extended_scale
         return extended_scale
