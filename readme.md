@@ -15,7 +15,7 @@ Want to try run this yourself? Here's how:
 2. From your terminal in the same directory as `requirements.txt`, run `python -m pip install -r requirements.txt`. Depending on your computer, you might have to run `python -m pip install --user -r requirements.txt `. Alternatively, the packages you need to install are `numpy`, `scipy`, and `simpleaudio`. `numpy` is necessary regardless, `scipy` is necessary for savcing audio to a file, and `simpleaudio` is used to play audio in the script without saving it anywhere.
 3. Create new python file, and create a new `Player`:
     ```python
-    #main.py#
+    #main.py
     from Player import Player
     player = Player()
     ```
@@ -29,7 +29,7 @@ Want to try run this yourself? Here's how:
     The values in the list should be positive integers corresponding to scale degrees. The default scale used it the A harmonic minor scale, but this can be changed with `Player().set_scale(scalename)`. With the default settings, numbers from **0** to **800** are okay, but in practice any number greater than say **70** is just going to sound stupid. With the default settings, the number **64** corresponds to **5312 Hz** (the highest note on a piano is **4186 Hz**)
 5. Give the Player some note durations (in seconds) to work with:
    ```python
-       #main.py
+    #main.py
     from Player import Player
     
     player = Player()
