@@ -59,7 +59,7 @@ Want to try run this yourself? Here's how:
 8. Now the audio is ready!
 
 # API
-You can see a much more detailed version of this API documentation in `html/Player.html`.
+You can see a much more detailed version of this API documentation at https://christofferaakre.github.io/music/.
 ## Classes
 
 
