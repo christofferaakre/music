@@ -16,7 +16,7 @@ mpmath==1.1.0
 mypy==0.720
 mypy-extensions==0.4.1
 nbformat==4.4.0
-numpy==1.16.0
+numpy==1.22.0
 opencv-python==4.1.0.25
 pillow>=6.2.0
 pout==0.7.9
